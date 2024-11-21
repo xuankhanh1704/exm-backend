@@ -20,6 +20,7 @@ public class SpringSecurityUser implements UserDetails, CredentialsContainer {
     private final Long id;
     private final String userName;
     private String password;
+    private final Constants.role role;
     private final Set<GrantedAuthority> authorities;
     private final String phoneNumber;
     private final String email;
@@ -30,6 +31,7 @@ public class SpringSecurityUser implements UserDetails, CredentialsContainer {
     public SpringSecurityUser(Long id, //NOSONAR
                               String userName,
                               String password,
+                              Constants.role role,
                               Collection<? extends GrantedAuthority> authorities,
                               String phoneNumber,
                               String email,
@@ -40,6 +42,7 @@ public class SpringSecurityUser implements UserDetails, CredentialsContainer {
         this.id = id;
         this.userName = userName;
         this.password = password;
+        this.role = role;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -98,13 +101,14 @@ public class SpringSecurityUser implements UserDetails, CredentialsContainer {
         return sortedAuthorities;
     }
 
-    public static SpringSecurityUser fromUser(Users user, List<String> authorities) {
+    public static SpringSecurityUser fromUser(Users user, List<String> authorities, Constants.role role) {
         List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
         return new SpringSecurityUser(user.getId(),
                 user.getUserName(),
                 user.getPassword(),
+                role,
                 grantedAuthorities,
                 user.getPhone(),
                 user.getEmail(),
@@ -114,13 +118,14 @@ public class SpringSecurityUser implements UserDetails, CredentialsContainer {
         );
     }
 
-    public static SpringSecurityUser fromUser(Users user, ZoneId zoneId, List<String> authorities) {
+    public static SpringSecurityUser fromUser(Users user, ZoneId zoneId, List<String> authorities, Constants.role role) {
         List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
         return new SpringSecurityUser(user.getId(),
                 user.getUserName(),
                 user.getPassword(),
+                role,
                 grantedAuthorities,
                 user.getPhone(),
                 user.getEmail(),

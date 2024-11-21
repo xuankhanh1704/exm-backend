@@ -27,7 +27,7 @@ public class Transactions {
     @JoinColumn(name = "user_id")
     private Users user;
 
-    @Column(name = "payment_method")
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Constants.PaymentMethod paymentMethod;
 
@@ -38,16 +38,17 @@ public class Transactions {
     @Column(name = "amount")
     private Double amount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Categories category;
+
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "date")
     private Instant date;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Constants.status status;
-
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
-    private List<Expenses> expenses;
-
-    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
-    private List<Payments> payment;
 }

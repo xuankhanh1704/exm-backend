@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.se06203.campusexpensemanagement.persistence.entity.Accounts;
 import org.se06203.campusexpensemanagement.persistence.repository.AccountRepository;
 import org.se06203.campusexpensemanagement.persistence.repository.UserRepository;
+import org.se06203.campusexpensemanagement.utils.Constants;
 import org.slf4j.MDC;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,7 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         var userAuthorities = accountRepository.findAllByUserId(user.getId());
                         var sUser = SpringSecurityUser.fromUser(user, zoneId, userAuthorities.stream()
                                 .map(authority -> authority.getRole().name())
-                                .toList());
+                                .toList(), Constants.role.USER);
                         var authentication = new UsernamePasswordAuthenticationToken(
                                 sUser, null, sUser.getAuthorities()
                         );

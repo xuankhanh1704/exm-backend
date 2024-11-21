@@ -41,7 +41,7 @@ public class Users extends AbstractAuditingEntity<Long>{
     private String phone;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Expenses> expenses;
+    private List<Transactions> transactions;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Accounts> accounts;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
