@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.se06203.campusexpensemanagement.persistence.repository.AccountRepository;
 import org.se06203.campusexpensemanagement.persistence.repository.UserRepository;
+import org.se06203.campusexpensemanagement.utils.Constants;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class DomainUserDetailsService implements UserDetailsService {
                     var userAuthorities = accountRepository.findAllByUserId(user.getId());
                     return SpringSecurityUser.fromUser(user, userAuthorities.stream()
                             .map(authority -> authority.getRole().name())
-                            .toList());
+                            .toList(), Constants.role.USER);
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("User with userName " + userName + " was not found in the database"));
     }

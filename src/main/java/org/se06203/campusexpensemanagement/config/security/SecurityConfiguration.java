@@ -38,9 +38,7 @@ public class SecurityConfiguration {
             new Request(null, "/v3/api-docs"),
             new Request(null, "/v3/api-docs.yaml"),
             new Request(null, "/v3/api-docs/*"),
-            new Request(HttpMethod.POST, "/api/*/otp/**"),
-            new Request(null, "/api/user/reset-password"),
-            new Request(null, "/api/user/register")
+            new Request(HttpMethod.POST, "/api/*/otp/**")
     );
 
     @Bean
@@ -62,7 +60,7 @@ public class SecurityConfiguration {
                                     authz.requestMatchers(request.method, request.pattern).permitAll();
                                 }
                             });
-                            authz.requestMatchers("/api/user/**").hasAnyAuthority(Constants.role.USER.name());
+                            authz.requestMatchers("/api/users/**").hasAnyAuthority(Constants.role.USER.name());
                             authz.anyRequest().authenticated();
                         }
                 )

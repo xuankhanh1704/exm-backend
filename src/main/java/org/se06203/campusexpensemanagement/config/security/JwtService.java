@@ -122,7 +122,7 @@ public class JwtService {
         Date validity = new Date(System.currentTimeMillis() +
                 (rememberMe
                         ? jwtConfig.getTokenValidityInSecondsForRememberMe()
-                        : jwtConfig.getTokenValidityInSeconds()) * 1000);
+                        : jwtConfig.getTokenValidityInSeconds()) * 3600);
 
         return new TokenInfo(this.defaultJwtBuilder()
                 .claim(CLAIM_ROLE, authentication.getAuthorities())

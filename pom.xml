@@ -32,9 +32,16 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <io.jsonwebtoken.version>0.12.6</io.jsonwebtoken.version>
         <springdoc.version>2.6.0</springdoc.version>
+        <java-otp.version>0.4.0</java-otp.version>
         <hibernate-spatial.version>6.1.3.Final</hibernate-spatial.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.eatthepath/java-otp -->
+        <dependency>
+            <groupId>com.eatthepath</groupId>
+            <artifactId>java-otp</artifactId>
+            <version>${java-otp.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

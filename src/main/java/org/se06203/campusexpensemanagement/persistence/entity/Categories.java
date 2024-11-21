@@ -28,7 +28,7 @@ public class Categories {
     private String description;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<Expenses> expenses;
+    private List<Transactions> transactions;
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Budgets> budgets;
 }

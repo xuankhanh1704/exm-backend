@@ -1,5 +1,6 @@
 package org.se06203.campusexpensemanagement.persistence.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.se06203.campusexpensemanagement.persistence.entity.Users;
 import org.se06203.campusexpensemanagement.utils.Constants;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,13 @@ public interface UserRepository extends JpaRepository<Users, Long>{
             AND a.role = :role
             """)
     Optional<Users> findByUserNameAndRole(String userName, Constants.role role);
+
+    @Query("""
+            SELECT u FROM Users u
+            JOIN Accounts a
+            ON a.user.id = u.id
+            WHERE u.email = :email
+            AND a.role = :role
+            """)
+    Optional<Users> findByEmailAndRole( String email, Constants.role role);
 }

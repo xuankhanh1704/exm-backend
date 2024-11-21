@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.time.Instant;
+
 @ConfigurationProperties("application")
 @Getter
 @Setter
