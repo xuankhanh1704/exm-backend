@@ -24,13 +24,13 @@ public class OTPController {
     private final OTPService otpService;
 
     @PostMapping("/request")
-    @Operation(tags = "user - OTP")
+    @Operation(tags = "User - OTP")
     public ResponseWrapper<RequiredOTPRequest> requestOTP(@Validated @RequestBody VerifyEmailRequest rq) {
         return ResponseWrapper.success(otpService.generateOTP(rq));
     }
 
     @PostMapping("/verify")
-    @Operation(tags = "user - OTP")
+    @Operation(tags = "User - OTP")
     public ResponseWrapper<VerifyResponse> verifyOTP(@RequestBody VerifyOtpRequest rq) {
         return ResponseWrapper.success(otpService.verifyOTP(rq));
     }
