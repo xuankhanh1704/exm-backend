@@ -65,9 +65,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         bearerToken = bearerToken.substring(7);
         if (StringUtils.isNotEmpty(bearerToken) && this.jwtService.isTokenValid(bearerToken)) {
-            var userName = jwtService.getUserNameFromToken(bearerToken);
+            var email = jwtService.getEmailFromToken(bearerToken);
             var role = jwtService.extractUserType(bearerToken);
-            userRepository.findByUserNameAndRole(userName, role)
+            userRepository.findByEmailAndRole(email, role)
                     .ifPresent(user -> {
                         var zoneIdString = request.getHeader(TIME_ZONE);
                         var zoneId = StringUtils.isBlank(zoneIdString) ? ZoneId.systemDefault() : ZoneId.of(zoneIdString);
