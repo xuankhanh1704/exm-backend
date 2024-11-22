@@ -31,11 +31,12 @@ public class JwtService {
 
     private final ApplicationConfigurationProperties applicationConfig;
 
-    private static final String CLAIM_ROLE = "authority";
+    private static final String CLAIM_AUTHORITY = "authority";
+    private static final String CLAIM_ROLE = "role";
     private static final String CLAIM_FIRST_NAME = "firstName";
     private static final String CLAIM_LAST_NAME = "lastName";
     private static final String CLAIM_PHONE = "phone";
-    private static final String CLAIM_EMAIL = "email";
+    private static final String CLAIM_USERNAME = "userName";
 
 //    @PostConstruct
 //    public void init() {
@@ -92,7 +93,7 @@ public class JwtService {
         return false;
     }
 
-    public String getUserNameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         return this.defaultJwtParserBuilder()
                 .build()
                 .parseSignedClaims(token)
@@ -125,12 +126,13 @@ public class JwtService {
                         : jwtConfig.getTokenValidityInSeconds()) * 1000);
 
         return new TokenInfo(this.defaultJwtBuilder()
-                .claim(CLAIM_ROLE, authentication.getAuthorities())
+                .claim(CLAIM_AUTHORITY, authentication.getAuthorities())
                 .claim(CLAIM_FIRST_NAME, authenticateUser.getFirstName())
                 .claim(CLAIM_LAST_NAME, authenticateUser.getLastName())
-                .claim(CLAIM_EMAIL, authenticateUser.getEmail())
+                .claim(CLAIM_USERNAME, authentication.getName())
                 .claim(CLAIM_PHONE, authenticateUser.getPhoneNumber())
-                .subject(authentication.getName())
+                .claim(CLAIM_ROLE, authenticateUser.getRole())
+                .subject(authenticateUser.getEmail())
                 .expiration(validity)
                 .compact(), validity.getTime());
     }

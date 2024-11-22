@@ -20,15 +20,6 @@ public interface UserRepository extends JpaRepository<Users, Long>{
             SELECT u FROM Users u
             JOIN Accounts a
             ON a.user.id = u.id
-            WHERE u.userName = :userName
-            AND a.role = :role
-            """)
-    Optional<Users> findByUserNameAndRole(String userName, Constants.role role);
-
-    @Query("""
-            SELECT u FROM Users u
-            JOIN Accounts a
-            ON a.user.id = u.id
             WHERE u.email = :email
             AND a.role = :role
             """)

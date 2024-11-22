@@ -3,10 +3,13 @@ package org.se06203.campusexpensemanagement.service;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.se06203.campusexpensemanagement.config.exception.NotFoundException;
 import org.se06203.campusexpensemanagement.config.security.SecurityUtils;
 import org.se06203.campusexpensemanagement.dto.request.CreateExpensesRequest;
 import org.se06203.campusexpensemanagement.dto.response.GetTransactionsResponse;
 import org.se06203.campusexpensemanagement.persistence.entity.Transactions;
+import org.se06203.campusexpensemanagement.dto.response.TotalAmountTransactionResponse;
 import org.se06203.campusexpensemanagement.persistence.repository.TransactionRepository;
 import org.se06203.campusexpensemanagement.persistence.repository.UserRepository;
 import org.se06203.campusexpensemanagement.utils.Constants;
@@ -17,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -55,3 +59,4 @@ public class TransactionService {
     }
 
 }
+
