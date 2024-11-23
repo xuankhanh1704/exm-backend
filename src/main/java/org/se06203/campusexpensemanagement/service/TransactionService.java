@@ -1,12 +1,11 @@
 package org.se06203.campusexpensemanagement.service;
 
-import jakarta.transaction.Transaction;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.se06203.campusexpensemanagement.config.exception.NotFoundException;
 import org.se06203.campusexpensemanagement.config.security.SecurityUtils;
-import org.se06203.campusexpensemanagement.dto.request.CreateExpensesRequest;
+import org.se06203.campusexpensemanagement.dto.request.CreateExpensesAndIncomeRequest;
 import org.se06203.campusexpensemanagement.dto.response.GetTransactionsResponse;
 import org.se06203.campusexpensemanagement.persistence.entity.Transactions;
 import org.se06203.campusexpensemanagement.dto.response.TotalAmountTransactionResponse;
@@ -24,17 +23,16 @@ import java.util.List;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final SecurityUtils securityUtils;
     private final UserRepository userRepository;
 
 
 
     @Transactional
-    public void createExpenses(CreateExpensesRequest request) {
+    public void createIncomeAndExpenses(CreateExpensesAndIncomeRequest request) {
         var userId = SecurityUtils.getAuthenticatedUser().getId();
 
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));
 
         var expenses = Transactions.builder()
                 .user(user)
@@ -42,13 +40,44 @@ public class TransactionService {
                 .amount(request.getAmount())
                 .category(request.getCategoryId())
                 .date(request.getDate())
-                .paymentMethod(Constants.PaymentMethod.EXPENSE)
+                .paymentMethod(request.getPaymentMethod())
                 .build();
         transactionRepository.save(expenses);
     }
+
     @Transactional
-    public List<GetTransactionsResponse> getAllTransactions(Long userId, Instant date) {
+    public List<GetTransactionsResponse> getAllTransactions(Instant date) {
+        var userId = SecurityUtils.getAuthenticatedUser().getId();
         return transactionRepository.findAllByUserIdAndDate(userId,date).stream().map(
+                data -> GetTransactionsResponse.builder()
+                        .amount(data.getAmount())
+                        .description(data.getDescription())
+                        .date(data.getDate())
+                        .categoryId(data.getCategory())
+                        .build()
+        ).toList();
+    }
+
+    @Transactional
+    public TotalAmountTransactionResponse totalAmount() {
+        var userId = SecurityUtils.getAuthenticatedUser().getId();
+        var totalExpense = transactionRepository.findTotalExpenseByUserId(userId)
+                .orElseThrow(() -> new NotFoundException("cannot find userId"));
+        var totalIncome = transactionRepository.findTotalIncomeByUserId(userId)
+                .orElseThrow(() -> new NotFoundException("cannot find userId"));
+        var totalAmount = totalIncome.getTotal() - totalExpense.getTotal();
+
+        return TotalAmountTransactionResponse.builder()
+                .totalIncome(totalIncome.getTotal())
+                .totalExpense(totalExpense.getTotal())
+                .totalAmount(totalAmount)
+                .build();
+    }
+
+    @Transactional
+    public List<GetTransactionsResponse> getTransactionsResponseList(Constants.PaymentMethod paymentMethod) {
+        var userId = SecurityUtils.getAuthenticatedUser().getId();
+        return transactionRepository.findAllByUserIdAndType(userId,paymentMethod).stream().map(
                 data -> GetTransactionsResponse.builder()
                         .amount(data.getAmount())
                         .description(data.getDescription())

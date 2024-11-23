@@ -3,7 +3,6 @@ package org.se06203.campusexpensemanagement.dto.request;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.se06203.campusexpensemanagement.persistence.entity.Categories;
-import org.se06203.campusexpensemanagement.persistence.entity.Users;
 import org.se06203.campusexpensemanagement.utils.Constants;
 
 import java.time.Instant;
@@ -13,7 +12,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateExpensesRequest {
+public class CreateExpensesAndIncomeRequest {
     @NotNull
     private Long userId;
 

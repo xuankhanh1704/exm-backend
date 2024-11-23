@@ -12,8 +12,6 @@ import java.time.Instant;
 @Builder
 public class GetExpenseResponse {
 
-//    private String name;
-
     private Double amount;
 
     private String description;
