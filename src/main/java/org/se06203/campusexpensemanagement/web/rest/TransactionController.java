@@ -24,6 +24,21 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    @PostMapping
+    @Operation(tags = "User - Transaction")
+    public ResponseWrapper<Void> createExpenses(@RequestBody CreateExpensesAndIncomeRequest request) {
+        transactionService.createIncomeAndExpenses(request);
+        return ResponseWrapper.success();
+    }
+
+    @GetMapping
+    @Operation(tags = "User - Transaction")
+    public ResponseWrapper<List<GetTransactionsResponse>> getAllExpenses(@RequestParam(value = "date") Instant date) {
+        List<GetTransactionsResponse> transactionsResponses = transactionService.getAllTransactions(date);
+        return ResponseWrapper.success(transactionsResponses);
+    }
+
+    @GetMapping()
     @GetMapping("/total")
     @Operation(tags = "User - Transaction")
     public ResponseWrapper<TotalAmountTransactionResponse> getTotalAmount (){
@@ -35,4 +50,12 @@ public class TransactionController {
     public ResponseWrapper<List<TransactionListAllResponse>> getListAll(){
         return ResponseWrapper.success(transactionService.getAll());
     }
+
+    @GetMapping("/")
+    @Operation(tags = "User - Transaction" )
+    public ResponseWrapper<List<GetTransactionsResponse>> getTransactionsResponseList(@RequestParam(value = "type") Constants.PaymentMethod paymentMethod) {
+        List<GetTransactionsResponse> listTransactions = transactionService.getTransactionsResponseList(paymentMethod);
+        return ResponseWrapper.success(listTransactions);
+    }
+
 }

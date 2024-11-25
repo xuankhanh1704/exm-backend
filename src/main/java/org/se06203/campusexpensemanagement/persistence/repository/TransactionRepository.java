@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
 
+    List<Transactions> findAllByUserIdAndDate(Long userId, Instant date);
+
     @Query("""
             SELECT SUM(tr.amount) FROM Transactions tr
             WHERE tr.user.id = :userId
@@ -33,4 +35,14 @@ public interface TransactionRepository extends JpaRepository<Transactions, Long>
             ORDER BY tr.date DESC
             """)
     List<Transactions> findAllByUserId(Long userId);
+
+
+
+
+    @Query("""
+            SELECT tr FROM Transactions tr
+            WHERE tr.paymentMethod = :paymentMethod
+            """)
+    List<Transactions> findAllByUserIdAndType(Long userId, Constants.PaymentMethod paymentMethod );
+
 }

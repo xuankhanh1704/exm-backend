@@ -38,12 +38,12 @@ public class JwtService {
     private static final String CLAIM_PHONE = "phone";
     private static final String CLAIM_USERNAME = "userName";
 
-    @PostConstruct
-    public void init() {
-        String secret = applicationConfig.getSecurity().getAuthentication().getJwt().getBase64Secret();
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
-        secretKey = new SecretKeySpec(keyBytes, 0, keyBytes.length, SecurityUtils.JWT_ALGORITHM);
-    }
+//    @PostConstruct
+//    public void init() {
+//        String secret = applicationConfig.getSecurity().getAuthentication().getJwt().getBase64Secret();
+//        byte[] keyBytes = Base64.getDecoder().decode(secret);
+//        secretKey = new SecretKeySpec(keyBytes, 0, keyBytes.length, SecurityUtils.JWT_ALGORITHM);
+//    }
 
     private Claims extractAllClaims(String token) {
         return this.defaultJwtParserBuilder()
