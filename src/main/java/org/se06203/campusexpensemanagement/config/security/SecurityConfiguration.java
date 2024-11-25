@@ -70,7 +70,6 @@ public class SecurityConfiguration {
                 .securityContext(securityContextConfigurer -> securityContextConfigurer
                         .securityContextRepository(new DelegatingSecurityContextRepository(
                                 new RequestAttributeSecurityContextRepository()
-//                                , new HttpSessionSecurityContextRepository()
                         )))
                 .addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new AuthenticationEntryPoint()));
