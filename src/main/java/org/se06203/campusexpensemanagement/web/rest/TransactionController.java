@@ -38,13 +38,13 @@ public class TransactionController {
         return ResponseWrapper.success(transactionsResponses);
     }
 
-    @GetMapping()
+    @GetMapping("/total")
     @Operation(tags = "User - Transaction")
     public ResponseWrapper<TotalAmountTransactionResponse> getTotalAmount (){
         return ResponseWrapper.success(transactionService.totalAmount());
     }
 
-    @GetMapping("/")
+    @GetMapping("/list")
     @Operation(tags = "User - Transaction" )
     public ResponseWrapper<List<GetTransactionsResponse>> getTransactionsResponseList(@RequestParam(value = "type") Constants.PaymentMethod paymentMethod) {
         List<GetTransactionsResponse> listTransactions = transactionService.getTransactionsResponseList(paymentMethod);

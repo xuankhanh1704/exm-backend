@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
 import java.util.Optional;
@@ -38,6 +37,7 @@ public interface TransactionRepository extends JpaRepository<Transactions, Long>
     @Query("""
             SELECT tr FROM Transactions tr
             WHERE tr.paymentMethod = :paymentMethod
+            AND tr.user.id = :userId
             """)
     List<Transactions> findAllByUserIdAndType(Long userId, Constants.PaymentMethod paymentMethod );
 

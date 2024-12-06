@@ -18,13 +18,16 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
 
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+    }
 
 
     @Transactional
@@ -74,7 +77,7 @@ public class TransactionService {
                 .build();
     }
 
-    @Transactional
+
     public List<GetTransactionsResponse> getTransactionsResponseList(Constants.PaymentMethod paymentMethod) {
         var userId = SecurityUtils.getAuthenticatedUser().getId();
         return transactionRepository.findAllByUserIdAndType(userId,paymentMethod).stream().map(
@@ -86,6 +89,5 @@ public class TransactionService {
                         .build()
         ).toList();
     }
-
 }
 
