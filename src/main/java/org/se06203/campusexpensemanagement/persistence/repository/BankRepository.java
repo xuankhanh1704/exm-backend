@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface BankRepository extends JpaRepository<Banks, Long> {
-
-    List<Banks> getAllByUserId(Long userId);
 }
