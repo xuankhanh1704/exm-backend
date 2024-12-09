@@ -13,14 +13,14 @@ import java.time.Instant;
 @Getter
 @Setter
 public class CreateExpensesAndIncomeRequest {
-    @NotNull
-    private Long userId;
 
     private Double amount;
 
+    private Long bankId;
+
     private String description;
 
-    private Categories categoryId;
+    private Long categoryId;
 
     private Constants.PaymentMethod paymentMethod;
 

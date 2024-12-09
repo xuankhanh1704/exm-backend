@@ -22,7 +22,6 @@ public class RegisterRequest extends RequiredOTPRequest{
     @NotNull
     private String userName;
 
-    @NotNull
     @ValidPhoneNumber
     private String phoneNumber;
 }

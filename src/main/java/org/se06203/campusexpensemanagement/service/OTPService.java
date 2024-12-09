@@ -28,13 +28,12 @@ import java.util.Random;
 public class OTPService {
 
     private final EmailService emailService;
-    private final UserRepository userRepository;
 
     // Map để lưu trữ các giao dịch OTP
     private final Map<String, OtpTransaction> otpTransactions = new HashMap<>();
 
     private OtpTransaction generateOTP(String email) {
-        String otpCode = String.format("%06d", new Random().nextInt(999999)); // Tạo OTP gồm 6 chữ số
+        String otpCode = String.format("%04d", new Random().nextInt(9999)); // Tạo OTP gồm 6 chữ số
         Instant expiryTime = Instant.now().plus(Constants.EXPIRY_DURATION_MINUTES, ChronoUnit.MINUTES);
 
         return new OtpTransaction(otpCode, expiryTime, email);
@@ -59,7 +58,7 @@ public class OTPService {
             OtpTransaction otpTransaction = this.generateOTP(rq.getEmail());
             this.saveOTPTransaction(transId, otpTransaction);
             emailService.sendOtpEmail(email, otpTransaction.otpCode());
-            return new RequiredOTPRequest(transId);
+            return new RequiredOTPRequest(transId, otpTransaction.otpCode);
         } catch (Exception e) {
             throw new ServerException(ErrorCode.INVALID);
         }

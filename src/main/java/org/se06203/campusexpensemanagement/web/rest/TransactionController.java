@@ -2,16 +2,15 @@ package org.se06203.campusexpensemanagement.web.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.se06203.campusexpensemanagement.config.response.ResponseWrapper;
+import org.se06203.campusexpensemanagement.dto.request.CreateExpensesAndIncomeRequest;
 import org.se06203.campusexpensemanagement.dto.response.TotalAmountTransactionResponse;
 import org.se06203.campusexpensemanagement.dto.response.TransactionListAllResponse;
 import org.se06203.campusexpensemanagement.service.TransactionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.se06203.campusexpensemanagement.utils.Constants;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,29 +32,19 @@ public class TransactionController {
 
     @GetMapping
     @Operation(tags = "User - Transaction")
-    public ResponseWrapper<List<GetTransactionsResponse>> getAllExpenses(@RequestParam(value = "date") Instant date) {
-        List<GetTransactionsResponse> transactionsResponses = transactionService.getAllTransactions(date);
-        return ResponseWrapper.success(transactionsResponses);
+    public ResponseWrapper<List<TransactionListAllResponse>> getAllExpenses() {
+        return ResponseWrapper.success(transactionService.getAllTransactions());
     }
 
-    @GetMapping()
     @GetMapping("/total")
     @Operation(tags = "User - Transaction")
     public ResponseWrapper<TotalAmountTransactionResponse> getTotalAmount (){
         return ResponseWrapper.success(transactionService.totalAmount());
     }
 
-    @GetMapping()
+    @GetMapping("/list")
     @Operation(tags = "User - Transaction")
-    public ResponseWrapper<List<TransactionListAllResponse>> getListAll(){
-        return ResponseWrapper.success(transactionService.getAll());
+    public ResponseWrapper<List<TransactionListAllResponse>> getListAll(@RequestParam(value = "type",required = false) Constants.PaymentMethod paymentMethod){
+        return ResponseWrapper.success(transactionService.getAll(paymentMethod));
     }
-
-    @GetMapping("/")
-    @Operation(tags = "User - Transaction" )
-    public ResponseWrapper<List<GetTransactionsResponse>> getTransactionsResponseList(@RequestParam(value = "type") Constants.PaymentMethod paymentMethod) {
-        List<GetTransactionsResponse> listTransactions = transactionService.getTransactionsResponseList(paymentMethod);
-        return ResponseWrapper.success(listTransactions);
-    }
-
 }
