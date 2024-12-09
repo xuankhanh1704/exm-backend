@@ -19,14 +19,13 @@ public class BankService {
 
     public BankService(BankRepository bankRepository) {
         this.bankRepository = bankRepository;
-
     }
 
     @Transactional
     public List<GetListBankResponse> getAllBanks() {
         var userId = SecurityUtils.getAuthenticatedUser().getId();
 
-        return bankRepository.getAllByUserId(userId).stream().map(
+        return bankRepository.findAll().stream().map(
                 bank -> GetListBankResponse.builder()
                         .bankName(bank.getName())
                         .amount(bank.getAmount())
