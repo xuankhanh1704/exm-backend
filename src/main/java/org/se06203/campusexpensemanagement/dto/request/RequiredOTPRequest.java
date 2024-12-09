@@ -13,4 +13,6 @@ import lombok.Setter;
 public class RequiredOTPRequest {
     @NotNull
     private String transId;
+
+    private String otp;
 }

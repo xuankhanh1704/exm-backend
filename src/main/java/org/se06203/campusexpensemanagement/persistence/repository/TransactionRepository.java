@@ -9,13 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
-
 import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
 
-    List<Transactions> findAllByUserIdAndDate(Long userId, Instant date);
+    @Query("""
+            SELECT tr FROM Transactions tr
+            WHERE tr.user.id = :userId
+            AND tr.date <= :endDate
+            AND tr.date >= :firstDate
+            """)
+    List<Transactions> findAllByUserIdAndDate(Long userId, Instant endDate, Instant firstDate);
 
     @Query("""
             SELECT SUM(tr.amount) FROM Transactions tr
@@ -31,8 +36,12 @@ public interface TransactionRepository extends JpaRepository<Transactions, Long>
             """)
     Optional<TotalAmountTransactionProjection> findTotalIncomeByUserId(Long userId);
 
-
-
+    @Query("""
+            SELECT tr FROM Transactions tr
+            WHERE tr.user.id = :userId
+            ORDER BY tr.date DESC
+            """)
+    List<Transactions> findAllByUserId(Long userId);
 
     @Query("""
             SELECT tr FROM Transactions tr
