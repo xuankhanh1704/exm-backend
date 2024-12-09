@@ -1,6 +1,7 @@
 package org.se06203.campusexpensemanagement.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.se06203.campusexpensemanagement.config.ConvertToDate;
 import org.se06203.campusexpensemanagement.config.exception.NotFoundException;
