@@ -40,13 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final String USER_AUTHORITY_MDC_KEY = "user.authority";
 
     private final List<String> PATH_NOT_FILTER = Arrays.asList(
-            "/api/user/authentication",
+            "/api/users/authentication",
             "/api/public",
             "/swagger-ui.html",
             "/swagger-ui/",
             "/swagger-ui/index.html",
             "/v3/api-docs",
-            "/api/user/otp/"
+            "/api/users/otp/"
     );
     private final AccountRepository accountRepository;
 

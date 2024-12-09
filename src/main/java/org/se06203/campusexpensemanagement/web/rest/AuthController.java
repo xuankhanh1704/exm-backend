@@ -11,7 +11,6 @@ import org.se06203.campusexpensemanagement.dto.request.EmailRequest;
 import org.se06203.campusexpensemanagement.dto.request.RegisterRequest;
 import org.se06203.campusexpensemanagement.dto.response.AuthenticationResponse;
 import org.se06203.campusexpensemanagement.service.AuthService;
-import org.se06203.campusexpensemanagement.utils.Constants;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

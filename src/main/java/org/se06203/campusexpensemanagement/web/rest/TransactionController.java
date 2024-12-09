@@ -6,17 +6,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.se06203.campusexpensemanagement.config.response.ResponseWrapper;
 import org.se06203.campusexpensemanagement.dto.request.CreateExpensesAndIncomeRequest;
-import org.se06203.campusexpensemanagement.dto.response.GetTransactionsResponse;
 import org.se06203.campusexpensemanagement.dto.response.TotalAmountTransactionResponse;
+import org.se06203.campusexpensemanagement.dto.response.TransactionListAllResponse;
 import org.se06203.campusexpensemanagement.service.TransactionService;
 import org.se06203.campusexpensemanagement.utils.Constants;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/users/transactions")
+@RestController("userTransactionController")
+@RequestMapping("/api/users/transaction")
 @RequiredArgsConstructor
 @Slf4j
 @SecurityRequirement(name = "Bearer Authentication")
@@ -33,9 +32,8 @@ public class TransactionController {
 
     @GetMapping
     @Operation(tags = "User - Transaction")
-    public ResponseWrapper<List<GetTransactionsResponse>> getAllExpenses(@RequestParam(value = "date") Instant date) {
-        List<GetTransactionsResponse> transactionsResponses = transactionService.getAllTransactions(date);
-        return ResponseWrapper.success(transactionsResponses);
+    public ResponseWrapper<List<TransactionListAllResponse>> getAllExpenses() {
+        return ResponseWrapper.success(transactionService.getAllTransactions());
     }
 
     @GetMapping("/total")
@@ -45,10 +43,8 @@ public class TransactionController {
     }
 
     @GetMapping("/list")
-    @Operation(tags = "User - Transaction" )
-    public ResponseWrapper<List<GetTransactionsResponse>> getTransactionsResponseList(@RequestParam(value = "type") Constants.PaymentMethod paymentMethod) {
-        List<GetTransactionsResponse> listTransactions = transactionService.getTransactionsResponseList(paymentMethod);
-        return ResponseWrapper.success(listTransactions);
+    @Operation(tags = "User - Transaction")
+    public ResponseWrapper<List<TransactionListAllResponse>> getListAll(@RequestParam(value = "type",required = false) Constants.PaymentMethod paymentMethod){
+        return ResponseWrapper.success(transactionService.getAll(paymentMethod));
     }
-
 }

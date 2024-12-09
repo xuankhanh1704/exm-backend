@@ -30,5 +30,4 @@ public class BankController {
         bankService.createBank(request);
         return ResponseWrapper.success();
     }
-
 }
